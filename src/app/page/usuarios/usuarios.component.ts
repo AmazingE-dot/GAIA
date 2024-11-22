@@ -66,22 +66,29 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
 
     const data = this.usuariosForm.value;
-    const usuarioNuevo: UsuarioModel = {
-      nombre: data.nombre,
-      apellido1: data.apellido1,
-      apellido2: data.apellido2,
-      rol: data.rol,
-      tipoDocumento: data.tipoDocumento,
-      documento: data.documento,
-      correo: data.correo,
-      tipoCarrera: data.tipoCarrera,
-      carrera: data.carrera,
-      idEstu: data.idEstu,
-      celular: data.celular,
-      modalidad: data.modalidad,
-      password: data.password,
-      _id: data._id
-    };
+
+    const usuarioNuevo: UsuarioModel = new UsuarioModel(
+      data._id,
+      data.nombre,
+      data.apellido1,
+      data.apellido2,
+      data.password,
+      data.rol,
+      data.tipoDocumento,
+      data.documento,
+      data.correo,
+      data.celular,
+      data.tipoCarrera,
+      data.modalidad,
+      data.carrera,
+      data.idEstu,
+      new Date(data.createdAt || Date.now()),
+      data.token || '', 
+      data.horario || [],
+      data.fechaNacimiento ? new Date(data.fechaNacimiento) : undefined
+    );
+    
+
     {
       this.usuariosServices.crearUsuario(usuarioNuevo).subscribe({
         next: (res: any) => {
