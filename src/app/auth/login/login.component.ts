@@ -15,7 +15,7 @@ import { PATH } from '../../core/enum/path.enum';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterOutlet, UsuariosComponent, ReactiveFormsModule],
+  imports: [ ReactiveFormsModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

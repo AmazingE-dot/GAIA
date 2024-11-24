@@ -45,28 +45,38 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.usuariosForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       apellido1: ['', [Validators.required]],
-      apellido2: ['', [Validators.required]],
+      apellido2: ['', ],
       password: ['', [Validators.required]],
-      rol: ['', [Validators.required]],
+      rol: ['', ],
       tipoDocumento: ['', [Validators.required]],
       documento: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       celular: ['', [Validators.required]],
-      tipoCarrera: ['', [Validators.required]],
-      modalidad: ['', [Validators.required]],
-      carrera: ['', [Validators.required]],
+      tipoCarrera: ['', []],
+      modalidad: ['', []],
+      carrera: ['', []],
       fechaNacimiento: ['', [Validators.required]],
-      idEstu: ['', [Validators.required]],
+      idEstu: ['', ],
     });
   }
 
   crearUsuario() {
     if (!this.usuariosForm.valid) {
-      Swal.fire('Crear usuario', 'POr favor complete el formulario', 'info');
+      // Mostrar los errores específicos de cada campo
+      for (const controlName in this.usuariosForm.controls) {
+        const control = this.usuariosForm.get(controlName);
+        if (control && control.invalid) {
+          console.log(`${controlName} es inválido`, control.errors);  // Esto te dará detalles de los errores
+        }
+      }
+      Swal.fire('Crear usuario', 'Por favor complete el formulario', 'info');
+      return;
     }
-
+  
     const data = this.usuariosForm.value;
-
+  
+    console.log('Datos del formulario:', data);  // Para depurar
+  
     const usuarioNuevo: UsuarioModel = new UsuarioModel(
       data._id,
       data.nombre,
@@ -83,13 +93,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       data.carrera,
       data.idEstu,
       new Date(data.createdAt || Date.now()),
-      data.token || '', 
+      data.token || '',
       data.horario || [],
       data.fechaNacimiento ? new Date(data.fechaNacimiento) : undefined
     );
-    
-
-    {
+  
+    if (usuarioNuevo) {
       this.usuariosServices.crearUsuario(usuarioNuevo).subscribe({
         next: (res: any) => {
           Swal.fire(
@@ -100,15 +109,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
           location.reload();
         },
         error: (error) => {
-          Swal.fire('Error', `${error.error.msg}`, 'error');
-        },
+          const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
+          Swal.fire('Error', errorMsg, 'error');
+        }
       });
     }
   }
+  
+  
+  
 
   eliminarUsuario(data: UsuarioModel) {
-    this.usuarios = data._id;
-    
     // Mostrar confirmación antes de eliminar
     Swal.fire({
       title: '¿Estás seguro?',
@@ -124,14 +135,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         // Llamar al servicio de eliminación
         this.usuariosServices.eliminarUsuario(data._id).subscribe({
           next: (res: any) => {
+            // Filtrar la lista de usuarios para eliminar el usuario eliminado
+            this.usuarios = this.usuarios.filter((usuario: UsuarioModel) => usuario._id !== data._id);
+  
             Swal.fire(
               'Usuario eliminado',
               `El usuario ${data.nombre} ha sido eliminado con éxito`,
               'success'
             );
-  
-            // Recargar la lista de usuarios o actualiza la vista
-            location.reload(); // Método para recargar los usuarios
           },
           error: (error) => {
             Swal.fire('Error', `${error.error.msg}`, 'error');
@@ -140,6 +151,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       }
     });
   }
+  
 
   modalCrearUsuario() {
     if (this.activarCrearUsuario == false) {
