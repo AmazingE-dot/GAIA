@@ -64,6 +64,26 @@ export class UsuariosService {
       );
   }  
 
+  actualizarUsuario(id: string, usuario: UsuarioModel) {
+    return this.httpClient.put(`${this.API_URL}/${id}`, usuario, { headers: this.getHeaders() })
+    .pipe(
+      catchError((error) => {
+        const errorMsg = error.error?.errors
+          ? error.error.errors.map((err: any) => err.msg).join(', ')
+          : 'Ocurrió un error al actualizar el usuario.';
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: errorMsg,
+        });
+
+        return throwError(() => error);
+      })
+    );
+  }
+  
+
   eliminarUsuario(id: string) {
     return this.httpClient.delete(`${this.API_URL}/${id}`, {
       headers: this.getHeaders(),

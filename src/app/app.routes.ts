@@ -1,45 +1,41 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
-import { PATH } from './core/enum/path.enum';
 import { InicioComponent } from './page/inicio/inicio.component';
 import { UsuariosComponent } from './page/usuarios/usuarios.component';
+import { authGuard } from './guards/auth.guard'; // Asegúrate de usar la ruta correcta
+import { PATH } from './core/enum/path.enum';
+import { QuienesSomosComponent } from './page/quienes-somos/quienes-somos.component';
 
 export const routes: Routes = [
     {
-        path: 'login',
+        path: PATH.LOGIN,
         title: 'Login',
-        component: LoginComponent
+        component: LoginComponent,
     },
     {
         path: PATH.HOME,
         title: 'Inicio',
-        // canActivate: [AuthGuard],
+        canActivate: [authGuard], // Aplica el guard a HOME
         children: [
             {
                 path: '',
                 title: 'Home',
-                component: InicioComponent
+                component: InicioComponent,
             },
             {
-                path: 'usuario',
+                path: PATH.USUARIO,
                 title: 'Usuarios',
-                component: UsuariosComponent
+                component: UsuariosComponent,
             },
-        ]
+            {
+                path: PATH.QUIENESOMOS,
+                title: 'Quienes somos',
+                component: QuienesSomosComponent,
+            },
+        ],
     },
-    
-    // {
-    //     path: 'login',
-    //     component: LoginComponent
-    // },
-    // {
-    //     path: PATH.HOME,
-    //     title: 'Home',
-    //     component: InicioComponent,
-    // },
-    // {
-    //     path: PATH.USUARIO,
-    //     title: 'Usuarios',
-    //     component: UsuariosComponent,
-    // }
+    {
+        path: '**',
+        redirectTo: PATH.LOGIN, // Ruta por defecto a Login si no se encuentra la ruta
+    },
 ];

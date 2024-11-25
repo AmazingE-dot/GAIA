@@ -69,44 +69,44 @@ export class UsuariosComponent implements OnInit, OnDestroy {
           console.log(`${controlName} es inválido`, control.errors);  // Esto te dará detalles de los errores
         }
       }
-      Swal.fire('Crear usuario', 'Por favor complete el formulario', 'info');
+      Swal.fire('Crear o Actualizar usuario', 'Por favor complete el formulario', 'info');
       return;
     }
   
     const data = this.usuariosForm.value;
+    console.log('Datos del formulario:', data);  // Para depurar y asegurarte de que los datos son correctos
   
-    console.log('Datos del formulario:', data);  // Para depurar
-  
-    const usuarioNuevo: UsuarioModel = new UsuarioModel(
-      data._id,
-      data.nombre,
-      data.apellido1,
-      data.apellido2,
-      data.password,
-      data.rol,
-      data.tipoDocumento,
-      data.documento,
-      data.correo,
-      data.celular,
-      data.tipoCarrera,
-      data.modalidad,
-      data.carrera,
-      data.idEstu,
-      new Date(data.createdAt || Date.now()),
-      data.token || '',
-      data.horario || [],
-      data.fechaNacimiento ? new Date(data.fechaNacimiento) : undefined
-    );
-  
-    if (usuarioNuevo) {
-      this.usuariosServices.crearUsuario(usuarioNuevo).subscribe({
+    // Si el usuario tiene _id, se trata de una actualización
+    if (data._id) {
+      console.log('Actualizando usuario con _id:', data._id);
+      // Si el correo es el mismo, no validamos
+      this.usuariosServices.actualizarUsuario(data._id, data).subscribe({
         next: (res: any) => {
           Swal.fire(
-            'Usuario',
+            'Usuario actualizado',
+            `El usuario ${data.nombre} ha sido actualizado con éxito`,
+            'success'
+          );
+          // No recargar la página, solo actualizar la vista
+          this.actualizarVistaUsuario(res.usuario); // Asumiendo que el backend responde con el usuario actualizado
+        },
+        error: (error) => {
+          const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
+          Swal.fire('Error', errorMsg, 'error');
+        }
+      });
+    } else {
+      console.log('Creando nuevo usuario...');
+      // Si no tiene _id, es un nuevo usuario
+      this.usuariosServices.crearUsuario(data).subscribe({
+        next: (res: any) => {
+          Swal.fire(
+            'Usuario creado',
             `El usuario ${data.nombre} ha sido creado con éxito`,
             'success'
           );
-          location.reload();
+          // No recargar la página, solo actualizar la vista
+          this.actualizarVistaUsuario(res.usuario); // Asumiendo que el backend responde con el nuevo usuario
         },
         error: (error) => {
           const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
@@ -114,11 +114,72 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         }
       });
     }
+    console.log('Datos del formulario:', data);
+  }
+  
+  // Este método podría ser para actualizar la vista del usuario en la interfaz
+  actualizarVistaUsuario(usuario: UsuarioModel) {
+    // Actualiza la vista con el usuario actualizado
+    console.log('Usuario actualizado en la vista:', usuario);
+    // Aquí podrías actualizar la vista, por ejemplo, con un binding de datos
   }
   
   
   
 
+  editarUsuario(data: any): void {
+    this.activarCrearUsuario = true;
+
+    // Populate the form with the selected user's data for editing
+    this.usuarioSeleccionado = data;
+    this.usuariosForm.patchValue({
+      nombre: this.usuarioSeleccionado.nombre,
+      apellido1: this.usuarioSeleccionado.apellido1,
+      apellido2: this.usuarioSeleccionado.apellido2,
+      rol: this.usuarioSeleccionado.rol,
+      tipoDocumento: this.usuarioSeleccionado.tipoDocumento,
+      documento: this.usuarioSeleccionado.documento,
+      password: this.usuarioSeleccionado.password,
+      correo: this.usuarioSeleccionado.correo,
+      celular: this.usuarioSeleccionado.celular,
+      tipoCarrera: this.usuarioSeleccionado.tipoCarrera,
+      modalidad: this.usuarioSeleccionado.modalidad,
+      carrera: this.usuarioSeleccionado.carrera,
+      idEstu: this.usuarioSeleccionado.idEstu,
+      fechaNacimiento: this.usuarioSeleccionado.fechaNacimiento
+    });
+  }
+
+  // Handle form submission and update the user
+  actualizarUsuario(): void {
+    if (this.usuariosForm.valid) {
+      const updatedUser = this.usuariosForm.value;
+      
+      // If password was changed, handle it properly
+      if (updatedUser.password) {
+        updatedUser.password = updatedUser.password; // Ensure password is sent if changed
+      }
+  
+      this.usuariosServices.actualizarUsuario(this.usuarioSeleccionado._id, updatedUser).subscribe({
+        next: (res: any) => {
+          Swal.fire(
+            'Usuario actualizado',
+            `El usuario ${updatedUser.nombre} ha sido actualizado con éxito`,
+            'success'
+          );
+          // Optionally reset the form or close it after submission
+          this.usuariosForm.reset();
+          this.activarCrearUsuario = false;
+        },
+        error: (error) => {
+          Swal.fire('Error', `${error.error.msg}`, 'error');
+        }
+      });
+    } else {
+      Swal.fire('Formulario inválido', 'Por favor, complete todos los campos correctamente', 'warning');
+    }
+  }
+  
   eliminarUsuario(data: UsuarioModel) {
     // Mostrar confirmación antes de eliminar
     Swal.fire({

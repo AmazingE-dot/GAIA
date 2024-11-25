@@ -1,48 +1,79 @@
-<div class="m-10">
-    <div class="flex mt-52 justify-center items-center gap-[40rem]">
-      <div>
-        <h5 class="font-bold text-5xl">Ingresa ha</h5>
-        <h6 class="font-bold text-2xl mt-4">Tu plataforma educativa</h6>
-        <p class="mt-10">La mejor plataforma de manejo educativo</p>
-        <p>+5 AÑOS <b class="text-blue-900">Experiencia</b></p>
-      </div>
-      <div>
-        <h6 class="text-2xl font-bold">Ingresar</h6>
-        <form class="mt-6" [formGroup]="loginForm" autocomplete="off" (submit)="login()">
-          <div class="flex flex-col">
-              <input
-                type="text"
-                formControlName="correo"
-                class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl"
-                placeholder="Email"
-              />  
-              <input
-                type="password"
-                formControlName="password"
-                class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl mt-5"
-                placeholder="Contraseña"
-              />
-            <div class="mt-3 flex justify-between">
-              <div class="flex gap-2">
-                <input type="checkbox"
-                formControlName="remember">
-                <p>Recordar</p>
+<div class="mx-4 xl:mx-10">
+  <div>
+      <div class="flex flex-col xl:flex-row gap-10 xl:mt-52 justify-center items-center xl:gap-[40rem]">
+        <div class="xl:hidden">
+          <h6 class="text-2xl font-bold">Ingresar</h6>
+          <form class="mt-6" [formGroup]="loginForm" autocomplete="off" (submit)="login()">
+            <div class="flex flex-col">
+                <input
+                  type="text"
+                  formControlName="correo"
+                  class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl"
+                  placeholder="Email"
+                />
+                <input
+                  type="password"
+                  formControlName="password"
+                  class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl mt-5"
+                  placeholder="Contraseña"
+                />
+              <div class="mt-3 flex justify-between">
+                <div class="flex gap-2">
+                  <input type="checkbox"
+                  formControlName="remember">
+                  <p>Recordar</p>
+                </div>
+                <p class="text-gray-500 text-right cursor-pointer">Recuperar contraseña</p>
               </div>
-              <p class="text-gray-500 text-right cursor-pointer">Recuperar contraseña</p>
             </div>
-          </div>
-          <button 
-          type="submit"
-          class="text-white bg-blue-950 py-3 px-32 mt-6 rounded-xl hover:scale-105 transition-all">Ingresar</button>
-        </form>
+            <button
+            type="submit"
+            class="text-white bg-blue-950 py-3 px-32 mt-6 rounded-xl hover:scale-105 transition-all">Ingresar</button>
+          </form>
+        </div>
+        <div>
+          <h5 class="font-bold text-3xl xl:text-5xl">Ingresa ha</h5>
+          <h6 class="font-bold text-2xl xl:text-2xl mt-4">Tu plataforma educativa</h6>
+          <p class="mt-2 xl:mt-10">La mejor plataforma de manejo educativo</p>
+          <p>+5 AÑOS <b class="text-blue-900">Experiencia</b></p>
+        </div>
+        <div class="hidden xl:block">
+          <h6 class="text-2xl font-bold">Ingresar</h6>
+          <form class="mt-6" [formGroup]="loginForm" autocomplete="off" (submit)="login()">
+            <div class="flex flex-col">
+                <input
+                  type="text"
+                  formControlName="correo"
+                  class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl"
+                  placeholder="Email"
+                />
+                <input
+                  type="password"
+                  formControlName="password"
+                  class="bg-blue-200 text-blue-900 px-8 py-3 rounded-xl mt-5"
+                  placeholder="Contraseña"
+                />
+              <div class="mt-3 flex justify-between">
+                <div class="flex gap-2">
+                  <input type="checkbox"
+                  formControlName="remember">
+                  <p>Recordar</p>
+                </div>
+                <p class="text-gray-500 text-right cursor-pointer">Recuperar contraseña</p>
+              </div>
+            </div>
+            <button
+            type="submit"
+            class="text-white bg-blue-950 py-3 px-32 mt-6 rounded-xl hover:scale-105 transition-all">Ingresar</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <img
-      class="absolute bottom-0 left-1/2 transform -translate-x-1/2"
-      width="700"
-      src="logobg.png"
-      alt=""
-    />
-  </div>
+    <div>
+      <img
+        class="mx-auto xl:mx-0 mt-20 xl:mt-0 xl:absolute xl:bottom-0 xl:left-1/2 xl:transform xl:-translate-x-1/2 w-96 lg:w-5xl"
+        src="logobg.png"
+        alt=""
+      />
+    </div>
+</div>

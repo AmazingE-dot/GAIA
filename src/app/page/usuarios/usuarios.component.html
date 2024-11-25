@@ -103,11 +103,10 @@
                     <label for="fechaNacimiento" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carrera</label>
                 </div>
             </div>
-            
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Crear</button>
         </form>
     </div>
-    }   
+}   
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -152,7 +151,7 @@
                 </th>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     <div class="flex gap-2">
-                        <button class="bg-green-500 text-white rounded px-2 py-1">Editar</button>
+                        <button (click)="editarUsuario(usuario)" class="bg-green-500 text-white rounded px-2 py-1">Editar</button>
                         <button (click)="eliminarUsuario(usuario)" class="bg-rose-500 text-white rounded px-2 py-1">Eliminar</button>
                     </div>
                 </th>

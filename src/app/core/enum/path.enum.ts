@@ -3,4 +3,5 @@ export enum PATH {
     INICIO = 'inicio',
     LOGIN = 'login',
     USUARIO = 'usuario',
+    QUIENESOMOS = 'quienes',
 }
