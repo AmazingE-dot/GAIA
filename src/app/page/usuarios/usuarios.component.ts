@@ -119,9 +119,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
             icon: 'success',
             title: `El usuario ha sido actualizado con éxito`,
           });
-
           this.cargarUsuarios();
-          this.modalCrearUsuario()
         },
         error: (error) => {
           const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
@@ -260,10 +258,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   
 
   modalCrearUsuario() {
-    if (this.activarCrearUsuario == false) {
-      this.activarCrearUsuario = true;
-    } else {
-      this.activarCrearUsuario = false;
+    
+    this.activarCrearUsuario = !this.activarCrearUsuario; // Alterna el estado del modal
+
+    if (this.activarCrearUsuario) {
+      this.limpiarFormulario(); // Limpia el formulario si se abre el modal
     }
   }
 }
