@@ -43,7 +43,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     this.pensumService.getPensums().subscribe({
       next: (resp: any) => {
-        console.log('respuesta de la API:', resp.pensum);
         this.pensum = resp.pensum;
       },
       error: (error) => {
@@ -58,6 +57,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.usuarioSubscription?.unsubscribe();
   }
 
+  cargarUsuarios() {
+    this.usuariosServices.getUsuarios().subscribe({
+      next: (resp: any) => {
+        this.usuarios = resp.usuarios;
+      },
+      error: (error) => {
+        console.error('Error al cargar los usuarios:', error);
+        Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
+      }
+    });
+  }
+
   crearFormulario() {
     this.usuariosForm = this.formBuilder.group({
       _id: [null],
@@ -68,7 +79,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       rol: [''],
       tipoDocumento: ['', [Validators.required]],
       documento: ['', [Validators.required]],
-      correo: ['', [Validators.required]],
+      correo: ['', [Validators.required, Validators.email]],
       celular: ['', [Validators.required]],
       tipoCarrera: ['', []],
       modalidad: ['', []],
@@ -78,17 +89,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
   }
 
+
   crearUsuario() {
     this.activarCrearUsuario = !this.activarCrearUsuario; // Alterna el estado del div
     if (this.activarCrearUsuario) {
       this.limpiarFormulario(); // Limpia el formulario al mostrar el modal
     }
-    
+  
     if (!this.usuariosForm.valid) {
-      // Mostrar los errores específicos de cada campo
-      for (const controlName in this.usuariosForm.controls) {
-        const control = this.usuariosForm.get(controlName);
-      }
       Swal.fire(
         'Crear o Actualizar usuario',
         'Por favor complete el formulario',
@@ -96,19 +104,35 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       );
       return;
     }
-
+  
     const data = this.usuariosForm.value;
-
-    // Si el usuario tiene _id, se trata de una actualización
+  
     if (data._id) {
-      // Si el correo es el mismo, no validamos
       this.usuariosServices.actualizarUsuario(data._id, data).subscribe({
+        next: (res: any) => {
+          Swal.fire({
+            icon: 'success',
+            title: `El usuario ha sido actualizado con éxito`,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1400,
+          });
+          this.cargarUsuarios(); // Recargar usuarios después de actualizar
+        },
+        error: (error) => {
+          const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
+          Swal.fire('Error', errorMsg, 'error');
+        },
+      });
+    } else {
+      this.usuariosServices.crearUsuario(data).subscribe({
         next: (res: any) => {
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 1400,
+            timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
@@ -119,22 +143,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
             icon: 'success',
             title: `El usuario ha sido actualizado con éxito`,
           });
-          this.cargarUsuarios();
-        },
-        error: (error) => {
-          const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
-          Swal.fire('Error', errorMsg, 'error');
-        },
-      });
-    } else {
-      // Si no tiene _id, es un nuevo usuario
-      this.usuariosServices.crearUsuario(data).subscribe({
-        next: (res: any) => {
-          Swal.fire(
-            'Usuario creado',
-            `El usuario ${data.nombre} ha sido creado con éxito`,
-            'success'
-          );
+          this.cargarUsuarios(); // Recargar usuarios después de crear
         },
         error: (error) => {
           const errorMsg = error?.error?.msg || 'Ocurrió un error inesperado';
@@ -182,11 +191,21 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         .actualizarUsuario(this.usuarioSeleccionado._id, updatedUser)
         .subscribe({
           next: (res: any) => {
-            Swal.fire(
-              'Usuario actualizado',
-              `El usuario ${updatedUser.nombre} ha sido actualizado con éxito`,
-              'success'
-            );
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: 'success',
+              title: `El usuario ${updatedUser.nombre} ha sido actualizado con éxito`,
+            });
             // Optionally reset the form or close it after submission
             this.usuariosForm.reset();
             this.activarCrearUsuario = false;
@@ -239,30 +258,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
   }
 
-  cargarUsuarios() {
-    this.usuariosServices.getUsuarios().subscribe({
-      next: (resp: any) => {
-        this.usuarios = resp.usuarios; // Actualiza la lista de usuarios sin recargar la página
-      },
-      error: (error) => {
-        console.error('Error al cargar los usuarios:', error);
-        Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
-      }
-    });
-  }
 
   limpiarFormulario(): void {
-    this.usuariosForm.reset(); // Resetea todos los valores del formulario
-    this.usuarioSeleccionado; // Limpia cualquier usuario seleccionado
+    this.usuariosForm.reset();
+    this.usuarioSeleccionado;
   }
   
 
   modalCrearUsuario() {
-    
-    this.activarCrearUsuario = !this.activarCrearUsuario; // Alterna el estado del modal
-
     if (this.activarCrearUsuario) {
       this.limpiarFormulario(); // Limpia el formulario si se abre el modal
     }
+  this.activarCrearUsuario = !this.activarCrearUsuario; // Alterna el estado del modal  
   }
 }

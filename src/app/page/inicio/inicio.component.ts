@@ -27,7 +27,7 @@ export class InicioComponent implements OnInit {
       next: (resp: any) => {
         this.conteos.estudiantes = resp.estudiantes;
         this.conteos.administradores = resp.administradores;
-        this.conteos.profesores = resp.profesores;
+        this.conteos.profesores = resp.profesores;        
       },
       error: (error) => {
         console.error('Error al cargar los conteos:', error);

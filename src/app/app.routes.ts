@@ -5,6 +5,7 @@ import { UsuariosComponent } from './page/usuarios/usuarios.component';
 import { authGuard } from './guards/auth.guard'; // Asegúrate de usar la ruta correcta
 import { PATH } from './core/enum/path.enum';
 import { QuienesSomosComponent } from './page/quienes-somos/quienes-somos.component';
+import { MateriasComponent } from './page/materias/materias.component';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,11 @@ export const routes: Routes = [
                 path: PATH.QUIENESOMOS,
                 title: 'Quienes somos',
                 component: QuienesSomosComponent,
+            },
+            {
+                path: PATH.MATERIAS,
+                title: 'Materias',
+                component: MateriasComponent,
             },
         ],
     },
