@@ -7,6 +7,13 @@ export class ProfesorModel {
   ) {}
 }
 
+export class CarreraUsuarioModel {
+  constructor(
+    public readonly _id: string,
+    public nombre: string
+  ) {}
+}
+
 export class HorarioClaseModel {
   constructor(
     public readonly _id: string,
@@ -52,7 +59,7 @@ export class UsuarioModel {
     public celular: number,
     public tipoCarrera: string,
     public modalidad: string,
-    public carrera: string,
+    public carrera: CarreraUsuarioModel[],
     public idEstu: number,
     public createdAt: Date,
     public token: string,

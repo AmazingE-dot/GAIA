@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
   private usuarioService = inject(UsuariosService);
   isLoggedIn: boolean = false; // Indica si el usuario está autenticado
   isAdmin: boolean = false; // Indica si el usuario tiene el rol de ADMIN
+  isEstudiante: boolean = false; // Indica si el usuario tiene el rol de ADMIN
+  isProfesor: boolean = false; // Indica si el usuario tiene el rol de Profesor
 
   ngOnInit() {
     this.checkLoginStatus(); // Verificar el estado de autenticación al iniciar
@@ -28,23 +30,25 @@ export class HeaderComponent implements OnInit {
       try {
         // Decodificar el token para extraer el rol
         const decodedToken: any = jwtDecode(token);
-        console.log('Token decodificado:', decodedToken); // Inspeccionar el contenido del token
 
         // Verificar si el rol es ADMIN (ajustado a 'rol')
         this.isAdmin = decodedToken.rol === 'ADMIN';
-        console.log('Es admin:', this.isAdmin); // Verificar si es admin
+        this.isProfesor = decodedToken.rol === 'Profesor';
+        this.isEstudiante = decodedToken.rol === 'Estudiante';
       } catch (error) {
         console.error('Error al decodificar el token:', error);
         this.isLoggedIn = false;
         this.isAdmin = false;
+        this.isEstudiante = false;
+        this.isProfesor = false;
       }
     } else {
       this.isLoggedIn = false;
       this.isAdmin = false;
+      this.isEstudiante = false;
+      this.isProfesor = false;
     }
   }
-
-  
 
   cerrarSesion() {
     this.usuarioService.logOut();

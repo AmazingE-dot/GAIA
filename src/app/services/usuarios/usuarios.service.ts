@@ -49,44 +49,50 @@ export class UsuariosService {
       .post(this.API_URL, usuario, { headers: this.getHeaders() })
       .pipe(
         catchError((error) => {
-          const errorMsg = error.error?.errors 
-            ? error.error.errors.map((err: any) => err.msg).join(', ') 
+          const errorMsg = error.error?.errors
+            ? error.error.errors.map((err: any) => err.msg).join(', ')
             : 'Ocurrió un error al crear el usuario.';
-          
+
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: errorMsg,
           });
-  
+
           return throwError(() => error);
         })
       );
-  }  
+  }
 
   actualizarUsuario(id: string, usuario: UsuarioModel) {
-    return this.httpClient.put(`${this.API_URL}/${id}`, usuario, { headers: this.getHeaders() })
-    .pipe(
-      catchError((error) => {
-        const errorMsg = error.error?.errors
-          ? error.error.errors.map((err: any) => err.msg).join(', ')
-          : 'Ocurrió un error al actualizar el usuario.';
-        
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: errorMsg,
-        });
+    return this.httpClient
+      .put(`${this.API_URL}/${id}`, usuario, { headers: this.getHeaders() })
+      .pipe(
+        catchError((error) => {
+          const errorMsg = error.error?.errors
+            ? error.error.errors.map((err: any) => err.msg).join(', ')
+            : 'Ocurrió un error al actualizar el usuario.';
 
-        return throwError(() => error);
-      })
-    );
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: errorMsg,
+          });
+
+          return throwError(() => error);
+        })
+      );
   }
-  
 
   eliminarUsuario(id: string) {
     return this.httpClient.delete(`${this.API_URL}/${id}`, {
       headers: this.getHeaders(),
+    });
+  }
+
+  getUsuariosConteo() {
+    return this.httpClient.get(`${this.API_URL}/conteos`, {
+      headers: this.getHeaders(), // Usa el método centralizado para los encabezados
     });
   }
 }
