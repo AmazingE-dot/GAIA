@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { UsuariosService } from '../../services/usuarios/usuarios.service';
+import { UsuariosService } from '../../../services/usuarios/usuarios.service';
 // Importa jwtDecode correctamente
 import { jwtDecode } from 'jwt-decode';
 

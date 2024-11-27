@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { UsuariosComponent } from './page/usuarios/usuarios.component';
 import { LoginComponent } from './auth/login/login.component';
-import { HeaderComponent } from './shared/header/header.component';
+import { HeaderComponent } from './components/shared/header/header.component';
 
 @Component({
   selector: 'app-root',

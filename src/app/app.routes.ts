@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth.guard'; // Asegúrate de usar la ruta c
 import { PATH } from './core/enum/path.enum';
 import { QuienesSomosComponent } from './page/quienes-somos/quienes-somos.component';
 import { MateriasComponent } from './page/materias/materias.component';
+import { PensumsComponent } from './page/pensums/pensums.component';
 
 export const routes: Routes = [
     {
@@ -29,14 +30,19 @@ export const routes: Routes = [
                 component: UsuariosComponent,
             },
             {
-                path: PATH.QUIENESOMOS,
-                title: 'Quienes somos',
-                component: QuienesSomosComponent,
-            },
-            {
                 path: PATH.MATERIAS,
                 title: 'Materias',
                 component: MateriasComponent,
+            },
+            {
+                path: PATH.PENSUM,
+                title: 'Pensum',
+                component: PensumsComponent,
+            },
+            {
+                path: PATH.QUIENESOMOS,
+                title: 'Quienes somos',
+                component: QuienesSomosComponent,
             },
         ],
     },

@@ -17,5 +17,19 @@ export const MenuRoutes: MenuInfoInterface[] = [
         classCss: '',
         subMenu: [],
       },
+      {
+        path: PATH.MATERIAS,
+        title: 'Materias',
+        icon: '',
+        classCss: '',
+        subMenu: [],
+      },
+      {
+        path: PATH.PENSUM,
+        title: 'Pensum',
+        icon: '',
+        classCss: '',
+        subMenu: [],
+      },
 
 ]

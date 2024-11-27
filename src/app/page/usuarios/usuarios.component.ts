@@ -11,12 +11,11 @@ import Swal from 'sweetalert2';
 import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PensumService } from '../../services/pensum/pensum.service';
-import { PensumModel } from '../../core/models/pensum.model';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [ ReactiveFormsModule],
+  imports: [ ReactiveFormsModule ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
 })
@@ -31,6 +30,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   usuarioSubscription!: Subscription;
   
+  esEditar: boolean = false
   activarCrearUsuario: boolean = false;
   usuarios: any = [];
   pensum: any = [];
@@ -75,7 +75,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       nombre: ['', [Validators.required]],
       apellido1: ['', [Validators.required]],
       apellido2: [''],
-      password: ['', [Validators.required]],
+      password: [''],
       rol: [''],
       tipoDocumento: ['', [Validators.required]],
       documento: ['', [Validators.required]],
@@ -104,7 +104,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       );
       return;
     }
-  
+   
     const data = this.usuariosForm.value;
   
     if (data._id) {
@@ -154,6 +154,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   editarUsuario(data: any): void {
+    this.esEditar = true
     this.activarCrearUsuario = true;
 
     // Populate the form with the selected user's data for editing
@@ -166,7 +167,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       rol: this.usuarioSeleccionado.rol,
       tipoDocumento: this.usuarioSeleccionado.tipoDocumento,
       documento: this.usuarioSeleccionado.documento,
-      password: this.usuarioSeleccionado.password,
       correo: this.usuarioSeleccionado.correo,
       celular: this.usuarioSeleccionado.celular,
       tipoCarrera: this.usuarioSeleccionado.tipoCarrera,
@@ -181,11 +181,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   actualizarUsuario(): void {
     if (this.usuariosForm.valid) {
       const updatedUser = this.usuariosForm.value;
-
-      // If password was changed, handle it properly
-      if (updatedUser.password) {
-        updatedUser.password = updatedUser.password; // Ensure password is sent if changed
-      }
 
       this.usuariosServices
         .actualizarUsuario(this.usuarioSeleccionado._id, updatedUser)
@@ -267,6 +262,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   modalCrearUsuario() {
     if (this.activarCrearUsuario) {
+      this.esEditar = false
       this.limpiarFormulario(); // Limpia el formulario si se abre el modal
     }
   this.activarCrearUsuario = !this.activarCrearUsuario; // Alterna el estado del modal  

@@ -5,4 +5,5 @@ export enum PATH {
     USUARIO = 'usuario',
     QUIENESOMOS = 'quienes',
     MATERIAS = 'materias',
+    PENSUM = 'pensum',
 }
