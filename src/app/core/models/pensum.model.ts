@@ -1,9 +1,13 @@
-export interface PensumModel {
-  readonly _id: string;
-  nombre: string; 
-  facultad: string; 
-  materiaCodigo: string[];
-  idPensum: string; 
-  creditosTotales: number;
-  createdAt?: Date;
+export class PensumModel {
+  constructor(
+    public readonly _id: string,
+    public nombre: string,
+    public facultad: string, 
+    public materiaCodigo: string[],
+    public idPensum: string,
+    public semestresTotales: number,
+    public creditosTotales: number,
+    public createdAt?: Date,
+  ){}
+ 
 }

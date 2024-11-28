@@ -10,7 +10,7 @@ import { UsuarioModel } from '../../core/models/usuario.model';
 import Swal from 'sweetalert2';
 import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PensumService } from '../../services/pensum/pensum.service';
+import { PensumsService } from '../../services/pensum/pensum.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -25,7 +25,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   private formBuilder = inject(FormBuilder);
   usuariosServices = inject(UsuariosService);
-  pensumService = inject(PensumService);
+  PensumsService = inject(PensumsService);
   private router = inject(Router);
 
   usuarioSubscription!: Subscription;
@@ -41,7 +41,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.usuarios = resp.usuarios;
     });
 
-    this.pensumService.getPensums().subscribe({
+    this.PensumsService.getPensums().subscribe({
       next: (resp: any) => {
         this.pensum = resp.pensum;
       },

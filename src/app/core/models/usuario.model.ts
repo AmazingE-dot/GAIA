@@ -61,6 +61,7 @@ export class UsuarioModel {
     public modalidad: string,
     public carrera: CarreraUsuarioModel[],
     public idEstu: number,
+    public creditosAdquiridos: number,
     public createdAt: Date,
     public token: string,
     public horario: HorarioModel[],
