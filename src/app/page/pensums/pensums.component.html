@@ -1,4 +1,4 @@
-<div class="flex flex-col xl:flex-row justify-between gap-6 m-10 xl:mx-20">
+<div class="flex flex-col xl:flex-row justify-between gap-6 mt-10 mx-4 xl:mx-20">
     <h6 class="font-semibold text-2xl">Crear pensum</h6>
     <button (click)="modalCrearPensum()" class="bg-blue-800 text-white rounded hover:bg-blue-800 transition-all px-3 py-2">Crear usuario</button>
 </div>
@@ -61,11 +61,13 @@
 }   
 
 
-<section>
+<section class="mt-4">
     <div class="relative overflow-x-auto shadow-md mx-4 sm:rounded-lg xl:mx-20">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
+                    <th scope="col" class="px-6 py-3">
+                    </th>
                     <th scope="col" class="px-6 py-3">
                         Nombre
                     </th>
@@ -90,7 +92,7 @@
                 @for (pensum of pensums; track $index) {
                 <tr class="bg-white border-b">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        <button (click)="verPensum(pensum)" class="bg-orange-700 text-white rounded px-8 py-1">Ver</button>
+                        <button (click)="verPensum(pensum)" class="bg-orange-600 text-white rounded px-8 py-1 hover:scale-105 hover:bg-orange-700 transition-all">Ver</button>
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ pensum.nombre }}
@@ -120,15 +122,3 @@
     </div>
 </section>
 
-
-
-
-<section class="mx-4 xl:mx-20 mt-10">
-    PASAR A PENSUM DETALLE
-    <h1 class="font-bold text-lg text-green-900">LICENCIATURA EN LENGUAS EXTRANJERAS (ENFASIS EN INGLES)</h1>
-    <div class="grid grid-cols-1 mt-5 gap-10 md:grid-cols-2 xl:grid-cols-3 cursor-pointer">
-        <app-cards-pensum />
-        <app-cards-pensum />
-        <app-cards-pensum />
-    </div>
-</section>

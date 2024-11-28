@@ -3,7 +3,8 @@ export enum PATH {
     INICIO = 'inicio',
     LOGIN = 'login',
     USUARIO = 'usuario',
-    QUIENESOMOS = 'quienes',
+    QUIENESOMOS = 'quienes-somos',
     MATERIAS = 'materias',
     PENSUM = 'pensum',
+    PENSUM_DETALLE = 'pensum-detalle',
 }

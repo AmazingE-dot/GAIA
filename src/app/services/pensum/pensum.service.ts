@@ -29,6 +29,12 @@ export class PensumsService {
     });
   }
 
+  getUnPensum(id: string) {
+    return this.httpClient.get(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
+    });
+  }
+
   crearPensum(pensum: PensumModel) {
     return this.httpClient
       .post(this.API_URL, pensum, { headers: this.getHeaders() })

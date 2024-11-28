@@ -7,6 +7,7 @@ import { PATH } from './core/enum/path.enum';
 import { QuienesSomosComponent } from './page/quienes-somos/quienes-somos.component';
 import { MateriasComponent } from './page/materias/materias.component';
 import { PensumsComponent } from './page/pensums/pensums.component';
+import { PensumDetalleComponent } from './page/pensum-detalle/pensum-detalle.component';
 
 export const routes: Routes = [
     {
@@ -23,31 +24,42 @@ export const routes: Routes = [
                 path: '',
                 title: 'Home',
                 component: InicioComponent,
+                canActivate: [authGuard],
             },
             {
                 path: PATH.USUARIO,
                 title: 'Usuarios',
                 component: UsuariosComponent,
+                canActivate: [authGuard],
             },
             {
                 path: PATH.MATERIAS,
                 title: 'Materias',
                 component: MateriasComponent,
+                canActivate: [authGuard],
             },
             {
                 path: PATH.PENSUM,
                 title: 'Pensum',
                 component: PensumsComponent,
+                canActivate: [authGuard],
             },
             {
                 path: PATH.QUIENESOMOS,
                 title: 'Quienes somos',
                 component: QuienesSomosComponent,
+                canActivate: [authGuard],
+            },
+            {
+                path: PATH.PENSUM_DETALLE,
+                title: 'Pensum detallado',
+                component: PensumDetalleComponent,
+                canActivate: [authGuard],
             },
         ],
     },
     {
         path: '**',
-        redirectTo: PATH.LOGIN, // Ruta por defecto a Login si no se encuentra la ruta
+        redirectTo: '', // Ruta por defecto a Login si no se encuentra la ruta
     },
 ];

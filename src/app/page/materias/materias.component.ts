@@ -32,8 +32,6 @@ export class MateriasComponent {
   ngOnInit(): void {
     this.materiasServices.getMaterias().subscribe((resp: any) => {
       this.materias = resp.materias;
-    console.log(this.materias)
-
     });
   
     this.crearFormulario();

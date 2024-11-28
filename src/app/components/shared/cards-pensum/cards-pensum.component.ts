@@ -1,15 +1,16 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cards-pensum',
   standalone: true,
-  imports: [],
+  imports: [ NgClass ],
   templateUrl: './cards-pensum.component.html',
   styleUrl: './cards-pensum.component.css'
 })
 export class CardsPensumComponent {
   @Input() titulo: string = ''; // Título de la tarjeta
-  @Input() items: string[] = []; // Lista de elementos (parrafos)
+  @Input() items: { nombre: string; estado: string }[] = [];
   @Input() classes: { [key: string]: string } = { // Clases personalizadas
     header: 'bg-gray-300 rounded-t-lg px-2 py-3 text-center transition-all group-hover:bg-gray-500 group-hover:text-white',
     body: 'py-4 px-8 bg-gray-50 group-hover:bg-gray-100',

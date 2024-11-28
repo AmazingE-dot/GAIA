@@ -1,0 +1,15 @@
+<section class="mx-4 xl:mx-20 mt-10">
+    <div class="flex justify-between gap-4">
+        <h1 class="font-bold text-lg text-green-900">{{ pensum?.pensum.nombre }}</h1>
+        <button class="bg-blue-700 text-white rounded hover:bg-blue-900 transition-all px-3 py-2">Añadir materias</button>
+    </div>
+    <div class="grid grid-cols-1 mt-5 gap-10 md:grid-cols-2 xl:grid-cols-3 cursor-pointer">
+      @for (semestre of totalSemestres; track $index) {
+        <app-cards-pensum
+        [titulo]="getTituloSemestre($index + 1)" 
+        [items]="getMateriasPorSemestre($index + 1)"
+        ></app-cards-pensum>
+        }
+    </div> 
+</section>
+  
