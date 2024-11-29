@@ -177,7 +177,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Handle form submission and update the user
+  // Manejo del formulario para actualizar usuario
   actualizarUsuario(): void {
     if (this.usuariosForm.valid) {
       const updatedUser = this.usuariosForm.value;
