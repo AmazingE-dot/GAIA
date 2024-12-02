@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-cards-pensum',
@@ -8,7 +8,13 @@ import { Component, Input } from '@angular/core';
   templateUrl: './cards-pensum.component.html',
   styleUrl: './cards-pensum.component.css'
 })
-export class CardsPensumComponent {
+export class CardsPensumComponent implements OnChanges{
+  
+  materiasAgrupadasPorSemestre: { [key: number]: { nombre: string; estado: string }[] } = {};
+
+  ngOnChanges(): void {
+    console.log('Items recibidos:', this.items); // Asegúrate de que los items llegan correctos
+  }
   @Input() titulo: string = ''; // Título de la tarjeta
   @Input() items: { nombre: string; estado: string }[] = [];
   @Input() classes: { [key: string]: string } = { // Clases personalizadas

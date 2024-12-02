@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { MateriaModel } from "../../core/models/materia.model";
-import { catchError, throwError } from "rxjs";
+import { catchError, Observable, throwError } from "rxjs";
 import Swal from "sweetalert2";
+import { MateriasResponse } from "../../core/models/pensum.model";
 
 
 @Injectable({
@@ -15,17 +16,19 @@ export class MateriasService {
 
   constructor(private httpClient: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'x-token': token ? `${token}` : '', // Valida el token
-    });
+ private getHeaders(): HttpHeaders {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
   }
+  return new HttpHeaders({
+    'x-token': token,
+  });
+}
 
-
-  getMaterias() {
-    return this.httpClient.get(this.API_URL, {
-      headers: this.getHeaders(), // Usa el método centralizado para los encabezados
+  getMaterias(): Observable<MateriasResponse> {
+    return this.httpClient.get<MateriasResponse>(this.API_URL, {
+      headers: this.getHeaders(),
     });
   }
 
@@ -37,7 +40,7 @@ export class MateriasService {
           const errorMsg = error.error?.errors
             ? error.error.errors.map((err: any) => err.msg).join(', ')
             : 'Ocurrió un error al crear la materia.';
-
+          
           Swal.fire({
             icon: 'error',
             title: 'Oops...',

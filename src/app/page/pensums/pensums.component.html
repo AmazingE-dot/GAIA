@@ -1,6 +1,6 @@
 <div class="flex flex-col xl:flex-row justify-between gap-6 mt-10 mx-4 xl:mx-20">
     <h6 class="font-semibold text-2xl">Crear pensum</h6>
-    <button (click)="modalCrearPensum()" class="bg-blue-800 text-white rounded hover:bg-blue-800 transition-all px-3 py-2">Crear usuario</button>
+    <button (click)="modalCrearPensum()" class="bg-blue-800 text-white rounded hover:bg-blue-800 transition-all px-3 py-2">Crear pensum</button>
 </div>
 
 @if (activarCrearPensum) {
@@ -49,7 +49,7 @@
                 }
             </div>
             <div class="relative w-full xl:w-auto z-0 mb-5 group">
-                <input formControlName="creditosTotales" type="text" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <input formControlName="creditosTotales" type="number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                 <label for="creditosTotales" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Creditos</label>
                 @if(pensumForm.get('creditosTotales')?.touched && pensumForm.get('creditosTotales')?.hasError('required') || (pensumForm.get('creditosTotales')?.value == '')){
                     <span class="text-xs text-red-700">Este campo es obligatorio</span>
@@ -58,8 +58,7 @@
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Crear</button>
         </form>
     </div>
-}   
-
+}
 
 <section class="mt-4">
     <div class="relative overflow-x-auto shadow-md mx-4 sm:rounded-lg xl:mx-20">

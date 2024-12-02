@@ -83,6 +83,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       celular: ['', [Validators.required]],
       tipoCarrera: ['', []],
       modalidad: ['', []],
+      creditosAdquiridos: ['', [Validators.required]],
       carrera: ['', []],
       fechaNacimiento: [''],
       idEstu: [''],
@@ -172,6 +173,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       tipoCarrera: this.usuarioSeleccionado.tipoCarrera,
       modalidad: this.usuarioSeleccionado.modalidad,
       carrera: this.usuarioSeleccionado.carrera,
+      creditosAdquiridos: this.usuarioSeleccionado.creditosAdquiridos,
       idEstu: this.usuarioSeleccionado.idEstu,
       fechaNacimiento: this.usuarioSeleccionado.fechaNacimiento,
     });

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core'; 
 import { Router } from '@angular/router'; 
-import { PensumModel } from '../../core/models/pensum.model';
-import { catchError, throwError } from 'rxjs';
+import { PensumModel, PensumResponse } from '../../core/models/pensum.model';
+import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -22,15 +22,14 @@ export class PensumsService {
     });
   }
 
-
   getPensums() {
     return this.httpClient.get(this.API_URL, {
       headers: this.getHeaders(), // Usa el método centralizado para los encabezados
     });
   }
 
-  getUnPensum(id: string) {
-    return this.httpClient.get(`${this.API_URL}/${id}`, {
+  getUnPensum(id: string): Observable<PensumResponse> {
+    return this.httpClient.get<PensumResponse>(`${this.API_URL}/${id}`, {
       headers: this.getHeaders(),
     });
   }
@@ -55,21 +54,14 @@ export class PensumsService {
       );
   }
 
-  actualizarPensum(id: string, pensum: PensumModel) {
+  actualizarPensum(id: string, pensum: PensumModel): Observable<{ pensum: PensumModel }> {
     return this.httpClient
-      .put(`${this.API_URL}/${id}`, pensum, { headers: this.getHeaders() })
+      .put<{ pensum: PensumModel }>(`${this.API_URL}/${id}`, pensum, {
+        headers: this.getHeaders(),
+      })
       .pipe(
         catchError((error) => {
-          const errorMsg = error.error?.errors
-            ? error.error.errors.map((err: any) => err.msg).join(', ')
-            : 'Ocurrió un error al actualizar el pensum.';
-
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: errorMsg,
-          });
-
+          Swal.fire('Error', 'No se pudo actualizar el pensum.', 'error');
           return throwError(() => error);
         })
       );

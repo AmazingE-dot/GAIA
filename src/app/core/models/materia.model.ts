@@ -1,4 +1,3 @@
-
 export class MateriaModel {
     constructor (
         public readonly _id: string,
@@ -11,5 +10,5 @@ export class MateriaModel {
         public usuario: string, // ID del usuario relacionado
         public createdAt?: Date, // Opcional, ya que puede no ser necesario al crear una nueva materia
     ){}
-  }
+}
   
