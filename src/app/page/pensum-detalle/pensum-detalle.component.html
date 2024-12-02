@@ -28,6 +28,7 @@
           <app-cards-pensum
             [titulo]="getTituloSemestre(semestre)"
             [items]="materiasAgrupadasPorSemestre[semestre] || []"
+            (eliminar)="eliminarMateria($event)"
           ></app-cards-pensum>
         }
       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PensumsService } from '../../services/pensum/pensum.service';
 import { MateriasService } from '../../services/materias/materias.service';
@@ -35,7 +35,7 @@ export class PensumDetalleComponent implements OnInit {
     private router: Router,
     private PensumsService: PensumsService,
     private MateriasService: MateriasService,
-    private fb: FormBuilder 
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -85,28 +85,69 @@ export class PensumDetalleComponent implements OnInit {
     });
   }
 
-    agruparMateriasPorSemestre(): void {
-      if (!this.pensum || !Array.isArray(this.pensum.materiaCodigo)) {
-        return;
-      }
-    
-      this.materiasAgrupadasPorSemestre = this.pensum.materiaCodigo.reduce(
-        (acumulador: any, materia: any) => {
-          if (!acumulador[materia.semestre]) {
-            acumulador[materia.semestre] = [];
-          }
-          acumulador[materia.semestre].push({
-            nombre: materia.nombre,
-            estado: '',
-          });
-          return acumulador;
-        },
-        {}
-      );
-    
-      console.log('Materias agrupadas por semestre:', this.materiasAgrupadasPorSemestre);
+  agruparMateriasPorSemestre(): void {
+    if (!this.pensum || !Array.isArray(this.pensum.materiaCodigo)) {
+      return;
     }
+  
+    this.materiasAgrupadasPorSemestre = this.pensum.materiaCodigo.reduce(
+      (acumulador: any, materia: any) => {
+        if (!acumulador[materia.semestre]) {
+          acumulador[materia.semestre] = [];
+        }
+        acumulador[materia.semestre].push({
+          nombre: materia.nombre,
+          estado: '',
+        });
+        return acumulador;
+      },
+      {}
+    );
+  
+    console.log('Materias agrupadas por semestre:', this.materiasAgrupadasPorSemestre);
+  }
 
+  reloadPageWithPensum(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([`/pensum-detalle`], { state: { pensumId: this.pensumId } });
+    });
+  }
+  
+  
+
+  eliminarMateria(item: { nombre: string }): void {
+    const index = this.pensum.materiaCodigo.findIndex(
+        (materia: any) => materia.nombre === item.nombre
+    );
+
+    if (index !== -1) {
+        // Remueve la materia del array local
+        this.pensum.materiaCodigo.splice(index, 1);
+
+        // Actualiza el backend
+        this.PensumsService.actualizarPensum(this.pensumId, {
+            ...this.pensum,
+            materiaCodigo: this.pensum.materiaCodigo,
+        }).subscribe({
+            next: (response: any) => {
+                if (response?.pensum) {
+                    // Actualizar el estado del pensum
+                    this.pensum = response.pensum;
+                    this.materiasAgrupadasPorSemestre = { ...this.materiasAgrupadasPorSemestre };
+                    this.reloadPageWithPensum();
+                    Swal.fire('Éxito', 'Materia eliminada del pensum.', 'success');
+                } else {
+                    Swal.fire('Error', 'No se pudo actualizar el pensum.', 'error');
+                }
+            },
+            error: () => {
+                Swal.fire('Error', 'No se pudo actualizar el pensum.', 'error');
+            },
+        });
+    } else {
+        Swal.fire('Error', 'Materia no encontrada.', 'error');
+    }
+} 
   modalCrearPensumD(): void {
     if (!this.materiaApensumForm) {
       this.inicializarFormulario(); // Asegúrate de que siempre esté inicializado
@@ -179,9 +220,9 @@ export class PensumDetalleComponent implements OnInit {
             this.pensum = {
               ...this.pensum,
               materiaCodigo: materiaCodigoActualizado,
-            };
-  
+            }; 
             Swal.fire('Éxito', 'Materia agregada al pensum.', 'success');
+            this.reloadPageWithPensum();
           } else {
             Swal.fire('Error', 'No se pudo actualizar el pensum.', 'error');
           }
