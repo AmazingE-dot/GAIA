@@ -23,7 +23,7 @@
             </form>
         </div>
     }   
-    <div class="grid grid-cols-1 mt-5 gap-10 md:grid-cols-2 xl:grid-cols-3 cursor-pointer">
+    <div class="grid grid-cols-1 mb-10 mt-5 gap-10 md:grid-cols-2 xl:grid-cols-3 cursor-pointer">
         @for (semestre of totalSemestres; track $index) {
           <app-cards-pensum
             [titulo]="getTituloSemestre(semestre)"

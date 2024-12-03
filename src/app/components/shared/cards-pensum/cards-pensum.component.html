@@ -1,5 +1,7 @@
 <div class="group rounded-b-lg hover:scale-105 transition-all shadow-xl">
-    <h6 [ngClass]="classes['header']">{{ titulo }}</h6>
+    @if (items.length) {
+        <h6 [ngClass]="classes['header']">{{ titulo }}</h6>
+    }
     @for (item of items; track $index) {
     <div [ngClass]="classes['body']">
         <div [ngClass]="classes['item']" class="flex gap-4 justify-between">

@@ -7,19 +7,19 @@ import { jwtDecode } from 'jwt-decode';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   private usuarioService = inject(UsuariosService);
-  isLoggedIn: boolean = false; // Indica si el usuario está autenticado
-  isAdmin: boolean = false; // Indica si el usuario tiene el rol de ADMIN
-  isEstudiante: boolean = false; // Indica si el usuario tiene el rol de ADMIN
-  isProfesor: boolean = false; // Indica si el usuario tiene el rol de Profesor
+  isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  isEstudiante: boolean = false;
+  isProfesor: boolean = false;
 
   ngOnInit() {
-    this.checkLoginStatus(); // Verificar el estado de autenticación al iniciar
+    this.checkLoginStatus();
   }
 
   checkLoginStatus() {
@@ -28,10 +28,7 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = true;
 
       try {
-        // Decodificar el token para extraer el rol
         const decodedToken: any = jwtDecode(token);
-
-        // Verificar si el rol es ADMIN (ajustado a 'rol')
         this.isAdmin = decodedToken.rol === 'ADMIN';
         this.isProfesor = decodedToken.rol === 'Profesor';
         this.isEstudiante = decodedToken.rol === 'Estudiante';
@@ -52,7 +49,14 @@ export class HeaderComponent implements OnInit {
 
   cerrarSesion() {
     this.usuarioService.logOut();
-    this.isLoggedIn = false; // Cambiar el estado después de cerrar sesión
+    this.isLoggedIn = false;
     this.isAdmin = false;
+  }
+
+  toggleMenu() {
+    const menuMobile = document.getElementById('menuMobile');
+    if (menuMobile) {
+      menuMobile.classList.toggle('hidden');
+    }
   }
 }

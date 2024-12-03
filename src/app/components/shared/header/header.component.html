@@ -1,96 +1,77 @@
-<nav class="bg-white border-gray-200 flex justify-between items-center mt-10 mx-4 xl:mx-20">
+<nav class="bg-white border-gray-200 flex justify-between items-center mt-10 mx-4 xl:mx-20 sticky top-0 z-50">
   <a routerLink="/" class="flex items-center space-x-3 rtl:space-x-reverse">
     <img src="logo.webp" class="h-20" alt="GAIA Logo" />
-    <span class="self-center text-2xl font-semibold whitespace-nowrap"
-      >GAIA</span
-    >
+    <span class="self-center text-2xl font-semibold whitespace-nowrap">GAIA</span>
   </a>
   <button
-    data-collapse-toggle="navbar-default"
+    (click)="toggleMenu()"
     type="button"
-    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-    aria-controls="navbar-default"
-    aria-expanded="false"
+    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
   >
     <span class="sr-only">Abrir Menu</span>
-    <svg
-      class="w-5 h-5"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 17 14"
-    >
-      <path
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M1 1h15M1 7h15M1 13h15"
-      />
+    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
     </svg>
   </button>
-  <div class="hidden w-full lg:block md:w-auto" id="navbar-default">
-    <ul
-      class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
-    >
-      @if(isLoggedIn){
-      <li>
-        <a
-          routerLink="/"
-          class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-          aria-current="page"
-          >Inicio</a
-        >
-      </li>
-      } @if(isAdmin){
-      <li>
-        <a
-          routerLink="/usuario"
-          class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-          >Usuarios</a
-        >
-      </li>
-      } @if(isAdmin){
-      <li>
-        <a
-          routerLink="/materias"
-          class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-          >Materias</a
-        >
-      </li>
-      } @if(isAdmin){
-      <li>
-        <a
-          routerLink="/pensum"
-          class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-          >Pensums</a
-        >
-      </li>
-      } @if(isAdmin || isProfesor){
+  <div class="hidden md:block">
+    <ul class="font-medium md:flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+      @if(isLoggedIn) {
         <li>
-          <a
-            routerLink="/"
-            class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-            >Calificar</a
-          >
+          <a routerLink="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Inicio</a>
         </li>
-        }
-      <li>
-        <a
-          routerLink="/quienes"
-          class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-          >¿Quienes somos?</a
-        >
-      </li>
-      @if(isLoggedIn){
-      <li>
-        <a
-          (click)="cerrarSesion()"
-          class="cursor-pointer py-2 px-3 text-white rounded bg-rose-600 hover:bg-rose-800"
-          >Cerrar sesion</a
-        >
-      </li>
+      }
+      @if(isAdmin) {
+        <li>
+          <a routerLink="/usuario" class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Usuarios</a>
+        </li>
+        <li>
+          <a routerLink="/materias" class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Materias</a>
+        </li>
+        <li>
+          <a routerLink="/pensum" class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Pensums</a>
+        </li>
+      }
+      @if(isAdmin || isProfesor) {
+        <li>
+          <a routerLink="/" class="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Calificar</a>
+        </li>
+      }
+      @if(isLoggedIn) {
+        <li>
+          <a (click)="cerrarSesion()" class="cursor-pointer py-2 px-3 text-white rounded bg-rose-600 hover:bg-rose-800">Cerrar sesión</a>
+        </li>
       }
     </ul>
   </div>
+</nav>
+
+<nav class="hidden md:hidden sticky top-20 z-50" id="menuMobile">
+  <ul class="font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 space-y-2">
+    @if(isLoggedIn) {
+      <li>
+        <a routerLink="/" class="block py-2 px-3 text-white bg-blue-700 rounded">Inicio</a>
+      </li>
+    }
+    @if(isAdmin) {
+      <li>
+        <a routerLink="/usuario" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Usuarios</a>
+      </li>
+      <li>
+        <a routerLink="/materias" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Materias</a>
+      </li>
+      <li>
+        <a routerLink="/pensum" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Pensums</a>
+      </li>
+    }
+    @if(isAdmin || isProfesor) {
+      <li>
+        <a routerLink="/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Calificar</a>
+      </li>
+    }
+    @if(isLoggedIn) {
+      <li>
+        <a (click)="cerrarSesion()" class="block py-2 px-3 text-white bg-rose-600 rounded hover:bg-rose-800">Cerrar sesión</a>
+      </li>
+    }
+  </ul>
 </nav>
